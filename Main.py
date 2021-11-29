@@ -15,6 +15,7 @@ class Main():
         print("Mobile Ticket viewer")
         print("Select an option from below:\n")
         print("1) List all the tickets ")
+        print("2) List a single ticket ")
         print("Enter q to quit \n")
 
     def MainMenu(self):
@@ -26,6 +27,9 @@ class Main():
             if choice == "1":
                 os.system('cls')
                 tickets.GetAllTickets()
+            elif choice == "2":
+                os.system('cls')
+                tickets.GetSingleTicket()
             elif choice == "q":
                 print("\nThank you :) )\n")
                 break

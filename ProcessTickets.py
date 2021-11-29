@@ -19,17 +19,118 @@ class Ticket:
         while True:
             data = getJson.Get_Data()
             tickets = data['tickets']
+            next_page = data['next_page']
+            prev_page = data['previous_page']
             os.system('cls')
 
             print(9 * "-")
             self.Header()
-            self.PrintTickets(tickets)
-            break
+            self.PrintTickets(tickets,  getJson.params['page'])
+
+            print("\n\nOPTIONS\n")
+            print("1) Enter 1 to view next page ")
+            print("2) Enter 2 to view previous page")
+            print("3) Return Home (Enter 3)")
+            print("\nEnter q to Quit ")
+
+            selection = input("\nEnter your choice: ")
+            if selection == "1":
+                if next_page is None:
+                    os.system('cls')
+                    print('No more pages left')
 
 
+                else:
+                    os.system('cls')
+                    print("loading...")
+                    getJson.params['page'] += 1
 
-    def PrintTickets(self, tickets):
-        count = 0
+            elif selection == "2":
+                if prev_page is None:
+                    os.system('cls')
+                    print('You are already in the first page.')
+
+
+                else:
+                    os.system('cls')
+                    print("loading..")
+                    getJson.params['page'] -= 1
+
+            elif selection == "3":
+                os.system('cls')
+                print("Returning to Home Page....")
+
+                break
+            elif selection == "q":
+                print("\nThanks You :) :)\n")
+                sys.exit()
+
+            else:
+                print(
+                    "\nInvalid selection! Please enter \"1,2,3\" or \"q\""
+                )
+
+
+    def GetSingleTicket(self):
+        data = getJson.Get_Data()
+        data_length = data['count']
+
+        while True:
+
+            while True:
+                print("\nPlease Enter the Ticket ID\n ")
+                TicketID = input('Enter Ticket ID: ')
+                try:
+                    val = int(TicketID)
+                except ValueError:
+                    print("\nPlease enter NUMBER only\n")
+                    time.sleep(1)
+                    os.system('cls')
+                    continue
+                if 1 <= val <= data_length:
+                    break
+                else:
+                    print(
+                        "\nInvalid range. You have only " + str(data_length) +
+                        " Tickets...\n")
+                    time.sleep(1)
+                    os.system('cls')
+
+            os.system('cls')
+
+            data = getJson.GetSingleTicket(TicketID)
+            ticket = data['ticket']
+            if ticket is not None:
+                self.Header()
+                self.DisplayAllTickets(ticket)
+            else:
+                print("\nCould not retrieve the ticket!!! Please try again")
+
+            print("\n" + 5 * "-", "Search again" + 5 * "-" + "\n")
+            print("1. Enter 1 to Search Again ")
+            print("2. Enter 2 to Return to Home Page ")
+            print("\nEnter q to Quit")
+
+            selection = input("\nEnter your choice: ")
+            if selection == "1":
+                os.system('cls')
+                continue
+
+            elif selection == "2":
+                os.system('cls')
+                print("Returning to Main Menu ")
+                break
+
+            elif selection == "q":
+                print("\nThanks for visiting. :)\n")
+                sys.exit()
+            else:
+                print(
+                    """\nInvalid selection. Returning to home page""")
+                break
+
+    def PrintTickets(self, tickets, page):
+        count = page * getJson.MAX_PER_PAGE
         for ticket in tickets:
             self.DisplayAllTickets(ticket)
             count += 1
