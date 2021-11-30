@@ -4,6 +4,7 @@ import sys
 # imports datetime to reformat the created data received from json
 from datetime import datetime
 from pull_json_data import GetJSONData
+import textwrap
 
 getJson = GetJSONData()
 
@@ -13,6 +14,11 @@ class Ticket:
         print("Ticket Id", 2 * " ", "Subject",
               41 * " ", "Created at", 10 * " ", "Assigned by", 6 * " ", "Status")
         print(150 * "_")
+        print("\n")
+
+    def HeaderDescription(self):
+        print("Description")
+        print(30 * "_")
         print("\n")
 
     def GetAllTickets(self):
@@ -25,7 +31,7 @@ class Ticket:
 
             print(9 * "-")
             self.Header()
-            self.PrintTickets(tickets,  getJson.params['page'])
+            self.PrintTickets(tickets, getJson.params['page'])
 
             print("\n\nOPTIONS\n")
             print("1) Enter 1 to view next page ")
@@ -70,7 +76,6 @@ class Ticket:
                     "\nInvalid selection! Please enter \"1,2,3\" or \"q\""
                 )
 
-
     def GetSingleTicket(self):
         data = getJson.Get_Data()
         data_length = data['count']
@@ -105,29 +110,43 @@ class Ticket:
                 self.DisplayAllTickets(ticket)
             else:
                 print("\nCould not retrieve the ticket!!! Please try again")
+            end = 0
+            while True:
+                print("\n" + 5 * "-", "Search again" + 5 * "-" + "\n")
+                print("1. Enter 1 to Search Again ")
+                print("2. Enter 2 to Return to Home Page ")
+                print("3. Enter 3 to view Description")
+                print("\nEnter q to Quit")
 
-            print("\n" + 5 * "-", "Search again" + 5 * "-" + "\n")
-            print("1. Enter 1 to Search Again ")
-            print("2. Enter 2 to Return to Home Page ")
-            print("\nEnter q to Quit")
+                selection = input("\nEnter your choice: ")
+                if selection == "1":
+                    os.system('cls')
+                    break
 
-            selection = input("\nEnter your choice: ")
-            if selection == "1":
-                os.system('cls')
-                continue
+                elif selection == "2":
+                    os.system('cls')
+                    print("Returning to Main Menu ")
+                    end = -1
+                    break
 
-            elif selection == "2":
-                os.system('cls')
-                print("Returning to Main Menu ")
+                elif selection == "3":
+                    os.system('cls')
+                    print("Displaying Description")
+                    self.HeaderDescription()
+                    self.DisplayDescription(ticket)
+                    continue
+                elif selection == "q":
+                    print("\nThanks for visiting. :)\n")
+                    sys.exit()
+                else:
+                    print(
+                        """\nInvalid selection. Returning to home page""")
+                    end = -1
+                    break
+            if end == -1:
                 break
-
-            elif selection == "q":
-                print("\nThanks for visiting. :)\n")
-                sys.exit()
             else:
-                print(
-                    """\nInvalid selection. Returning to home page""")
-                break
+                continue
 
     def PrintTickets(self, tickets, page):
         count = page * getJson.MAX_PER_PAGE
@@ -142,7 +161,6 @@ class Ticket:
         subject = ticket['subject']
         status = ticket['status']
 
-
         created_at = str(datetime.strptime(
             ticket['created_at'], '%Y-%m-%dT%H:%M:%SZ'))
         string = "{:{fill}{align}{width}}"
@@ -153,3 +171,8 @@ class Ticket:
             created_at, fill='', align='<', width=28) +
               string.format(
                   assigned_by, fill='', align='<', width=18) + string.format(status, fill='', align='<', width=18))
+
+    def DisplayDescription(self, ticket):
+        description = ticket['description']
+        string = "{:{fill}{align}{width}}"
+        print(string.format(textwrap.fill(description, 50), fill='', align=':<', width=18))
