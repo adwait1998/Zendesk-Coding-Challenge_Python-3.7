@@ -17,6 +17,13 @@ Following instructions will help you setup the project on a local machine.
 ###Python Version
 * [python 3.7](https://www.python.org/downloads/release/python-373/)
 
+Execute the following command for cloning the repository and installing the dependencies.
+
+```
+git clone https://github.com/adwait1998/Zendesk-Coding-Challenge_Python-3.7
+```
+
+
 Execute the following command in CLI to verify installation and python version
 
 
@@ -34,6 +41,8 @@ pip install -r requirements.txt
 ```
 python Main.py
 ```
+
+*Note* : Add your credentials in credentials.json before running the program.
 ###Unit Testing
 
 Tested on Windows10
@@ -44,4 +53,4 @@ python UnitTesting.py
 
 ## Author
 
-* **Adwait Nilesh Patil** - [Zendesk_coding](https://github.com/adwait1998/Zendesk-Coding-Challenge_Python-3.7)
+* **Adwait Nilesh Patil** - [Zendesk_Coding_Challenge](https://github.com/adwait1998/Zendesk-Coding-Challenge_Python-3.7)

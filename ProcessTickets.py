@@ -6,23 +6,29 @@ from datetime import datetime
 from pull_json_data import GetJSONData
 import textwrap
 
-getJson = GetJSONData()
+getJson = GetJSONData()  # Creating an instance GetJSONData Class.
 
 
 class Ticket:
+    # Function for displaying column names with formatting while displaying tickets
     def Header(self):
         print("Ticket Id", 2 * " ", "Subject",
               41 * " ", "Created at", 10 * " ", "Assigned by", 6 * " ", "Status")
         print(150 * "_")
         print("\n")
 
+    # Function for displaying Description
     def HeaderDescription(self):
         print("Description")
         print(30 * "_")
         print("\n")
 
+    # Function for getting all Tickets
+    #
     def GetAllTickets(self):
         while True:
+            # Using the instance created I hit the API using Get_Data() module
+            # Further I extract fields like tickets, next_page and previous page
             data = getJson.Get_Data()
             tickets = data['tickets']
             next_page = data['next_page']
@@ -31,6 +37,8 @@ class Ticket:
 
             print(9 * "-")
             self.Header()
+            # Calling the PrintTickets function
+
             self.PrintTickets(tickets, getJson.params['page'])
 
             print("\n\nOPTIONS\n")
@@ -43,9 +51,7 @@ class Ticket:
             if selection == "1":
                 if next_page is None:
                     os.system('cls')
-                    print('No more pages left')
-
-
+                    print('No more pages left :( ')
                 else:
                     os.system('cls')
                     print("loading...")
@@ -54,9 +60,7 @@ class Ticket:
             elif selection == "2":
                 if prev_page is None:
                     os.system('cls')
-                    print('You are already in the first page.')
-
-
+                    print('You are already in the first page :)')
                 else:
                     os.system('cls')
                     print("loading..")
@@ -73,10 +77,11 @@ class Ticket:
 
             else:
                 print(
-                    "\nInvalid selection! Please enter \"1,2,3\" or \"q\""
+                    "\nInvalid selection :O  !!  Please enter \"1,2,3\" or \"q\""
                 )
 
     def GetSingleTicket(self):
+        #Here I again hit the API using Get_Data() for taking a total count.
         data = getJson.Get_Data()
         data_length = data['count']
 
@@ -103,6 +108,7 @@ class Ticket:
 
             os.system('cls')
 
+            #Here I call GetSingleTicket module to get a single ticket if the ID entered is in range.
             data = getJson.GetSingleTicket(TicketID)
             ticket = data['ticket']
             if ticket is not None:
@@ -148,6 +154,7 @@ class Ticket:
             else:
                 continue
 
+    #Function definition fot PrintTickets()
     def PrintTickets(self, tickets, page):
         count = page * getJson.MAX_PER_PAGE
         for ticket in tickets:
@@ -155,6 +162,7 @@ class Ticket:
             count += 1
         return
 
+    # Function definition fot DisplayAllTickets()
     def DisplayAllTickets(self, ticket):
         ticketId = ticket["id"]
         assigned_by = str(ticket['assignee_id'])
@@ -172,6 +180,7 @@ class Ticket:
               string.format(
                   assigned_by, fill='', align='<', width=18) + string.format(status, fill='', align='<', width=18))
 
+    # Function definition for DisplayDescription()
     def DisplayDescription(self, ticket):
         description = ticket['description']
         string = "{:{fill}{align}{width}}"

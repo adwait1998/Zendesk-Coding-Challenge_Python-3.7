@@ -9,6 +9,7 @@ import time
 
 
 class Main():
+    # Module for Displaying the Main Menu
     def display_menu(self):
         os.system('cls')
         print("")
@@ -18,6 +19,8 @@ class Main():
         print("2) List a single ticket ")
         print("Enter q to quit \n")
 
+    #Driver code which takes input based on options presented in the Main Menu
+    #This module further calls specific modules accordingly
     def MainMenu(self):
         os.system('cls')
 
@@ -34,7 +37,7 @@ class Main():
                 print("\nThank you :) )\n")
                 break
 
-
+#Driver Code
 if __name__ == '__main__':
     tickets = Ticket()
     object = Main()
