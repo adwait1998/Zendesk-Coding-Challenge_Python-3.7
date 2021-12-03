@@ -1,4 +1,4 @@
-#CLI Based Mobile Ticket Viewer (Zendesk Coding Challenge 2021)
+#CLI Based Ticket Viewer (Zendesk Coding Challenge 2021)
 
 This project consists of Zendesk 2021 Coding Challenge. I have attempted to create a CLI (Command Line Interface) based system which allows the user to view tickets fetched by Zendesk API.
 
